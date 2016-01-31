@@ -1,7 +1,16 @@
 package crawler;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.Set;
 import java.util.regex.Pattern;
+
+import com.google.common.io.Files;
 
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
@@ -46,6 +55,18 @@ public class MyCrawler extends WebCrawler {
              String html = htmlParseData.getHtml();
              Set<WebURL> links = htmlParseData.getOutgoingUrls();
              
+             try {
+            	 String filePath = "./file/html/" + Integer.toString(countPage) + ".html";
+            	 Files.write(page.getContentData(), new File(filePath));
+            	 filePath = "./file/text/" + Integer.toString(countPage) + ".txt";
+            	 Writer writer = new BufferedWriter(new OutputStreamWriter(
+                         new FileOutputStream(filePath)));
+            	 writer.write(text);
+            	 writer.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
              System.out.println("Text length: " + text.length());
              System.out.println("Html length: " + html.length());
              System.out.println("Number of outgoing links: " + links.size());
