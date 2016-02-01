@@ -61,7 +61,7 @@ public class MyCrawlController {
 	     */
 	    config.setResumableCrawling(false);
 	    
-	    String userAgentString = "IR W16 WebCrawler 60521251 47888751";
+	    String userAgentString = "IR W16 WebCrawler 60521251 47888751 66848977";
 	    config.setUserAgentString(userAgentString);
 	    /*
 	     * Instantiate the controller for this crawl.
