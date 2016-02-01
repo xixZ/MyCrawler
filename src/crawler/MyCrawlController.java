@@ -16,6 +16,9 @@ public class MyCrawlController {
 
 	    String crawlStorageFolder = "./";
 	    int numberOfCrawlers = 1;
+
+	    
+	    
 	    
 	    CrawlConfig config = new CrawlConfig();
 	    config.setCrawlStorageFolder(crawlStorageFolder);
