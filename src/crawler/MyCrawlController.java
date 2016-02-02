@@ -32,13 +32,13 @@ public class MyCrawlController {
 	     * You can set the maximum crawl depth here. The default value is -1 for
 	     * unlimited depth
 	     */
-	    config.setMaxDepthOfCrawling(2);
+	    config.setMaxDepthOfCrawling(1);
 
 	    /*
 	     * You can set the maximum number of pages to crawl. The default value
 	     * is -1 for unlimited number of pages
 	     */
-//	    config.setMaxPagesToFetch(100);
+ 	    //config.setMaxPagesToFetch(4);
 
 	    /*
 	     * Do you want crawler4j to crawl also binary data ?

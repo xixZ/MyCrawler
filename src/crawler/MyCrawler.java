@@ -99,6 +99,7 @@ public class MyCrawler extends WebCrawler {
 				}
             	 
              }
+             System.out.println("Finished "+countPage+" "+url);
          }
     }
     public static Integer countPage = 0;
