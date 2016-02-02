@@ -1,5 +1,10 @@
 package crawler;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,10 +21,6 @@ public class MyCrawlController {
 
 	    String crawlStorageFolder = "./";
 	    int numberOfCrawlers = 1;
-
-	    
-	    
-	    
 	    CrawlConfig config = new CrawlConfig();
 	    config.setCrawlStorageFolder(crawlStorageFolder);
 	    /*
@@ -86,6 +87,14 @@ public class MyCrawlController {
 	     * will reach the line after this only when crawling is finished.
 	     */
 	    controller.start(MyCrawler.class, numberOfCrawlers);
-	    System.out.println(MyCrawler.countPage);
+	    PrintWriter out;
+		try {
+			out = new PrintWriter(new BufferedWriter(new FileWriter("./file/urls" + MyCrawler.countPage.toString() + ".txt", true)));
+			for(int i = 0; i < MyCrawler.urls.size(); i ++)
+	            out.println(MyCrawler.urls.get(i));
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	  
 	  }
-	}
+}

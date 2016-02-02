@@ -24,7 +24,7 @@ public class MyCrawler extends WebCrawler {
 
     private final static Pattern AVOID = Pattern.compile("^http://calendar.*");
 
-    private ArrayList<String> urls = new ArrayList<String>();
+    public static ArrayList<String> urls = new ArrayList<String>();
     private String delimiter = "##--------------------------------------------------------##";
     private long startTime = System.currentTimeMillis();
     /**
