@@ -19,8 +19,12 @@ import edu.uci.ics.crawler4j.url.WebURL;
 
 public class MyCrawler extends WebCrawler {
 
-    private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|jpg"
-                                                           + "|png|mp3|mp3|zip|gz))$");
+    private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|jpg|mpeg"
+                                                           + "|png|pdf|mp3|mp4|zip|doc|gz))$");
+    
+    private final static Pattern MATCH = Pattern.compile("^http://.*\\.ics\\.uci\\.edu/.*");
+
+    private final static Pattern AVOID = Pattern.compile("^http://calendar.*");
 
     /**
      * This method receives two parameters. The first parameter is the page
@@ -36,7 +40,8 @@ public class MyCrawler extends WebCrawler {
      public boolean shouldVisit(Page referringPage, WebURL url) {
          String href = url.getURL().toLowerCase();
          return !FILTERS.matcher(href).matches()
-                && href.startsWith("http://www.ics.uci.edu/");
+                && MATCH.matcher(href).matches()
+                && !AVOID.matcher(href).matches();
      }
 
      /**
