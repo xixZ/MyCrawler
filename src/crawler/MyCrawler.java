@@ -1,16 +1,14 @@
 package crawler;
 
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.Writer;
-import java.util.Set;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
-
-import com.google.common.io.Files;
 
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
@@ -26,6 +24,9 @@ public class MyCrawler extends WebCrawler {
 
     private final static Pattern AVOID = Pattern.compile("^http://calendar.*");
 
+    private ArrayList<String> urls = new ArrayList<String>();
+    private String delimiter = "##--------------------------------------------------------##";
+    private long startTime = System.currentTimeMillis();
     /**
      * This method receives two parameters. The first parameter is the page
      * in which we have discovered this new url and the second parameter is
@@ -52,30 +53,53 @@ public class MyCrawler extends WebCrawler {
      public void visit(Page page) {
     	 countPage ++;
          String url = page.getWebURL().getURL();
-         System.out.println("URL: " + url);
+         urls.add(url);
 
          if (page.getParseData() instanceof HtmlParseData) {
              HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
              String text = htmlParseData.getText();
-             String html = htmlParseData.getHtml();
-             Set<WebURL> links = htmlParseData.getOutgoingUrls();
+             //String html = htmlParseData.getHtml();
+             //Set<WebURL> links = htmlParseData.getOutgoingUrls();
              
              try {
-            	 String filePath = "./file/html/" + Integer.toString(countPage) + ".html";
-            	 Files.write(page.getContentData(), new File(filePath));
-            	 filePath = "./file/text/" + Integer.toString(countPage) + ".txt";
+            	// String filePath = "./file/html/" + Integer.toString(countPage) + ".html";
+            	// Files.write(page.getContentData(), new File(filePath));
+            	 String filePath = "./file/text/" + Integer.toString(countPage) + ".txt";
             	 Writer writer = new BufferedWriter(new OutputStreamWriter(
                          new FileOutputStream(filePath)));
             	 writer.write(text);
             	 writer.close();
+            	 Integer fileNum = countPage / 5000;
+            	 PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("./file/myfile" + fileNum.toString() + ".txt", true)));
+            	 out.println(text);
+            	 out.println(delimiter);
+            	 out.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-             System.out.println("Text length: " + text.length());
-             System.out.println("Html length: " + html.length());
-             System.out.println("Number of outgoing links: " + links.size());
+            // System.out.println("Text length: " + text.length());
+            // System.out.println("Html length: " + html.length());
+            // System.out.println("Number of outgoing links: " + links.size());
+             if(countPage % 10000 == 0){
+            	 long curTime = System.currentTimeMillis();
+            	 System.out.println(countPage.toString() + " pages have been crawled in " + Long.toString(curTime - startTime) + "ms");;
+             }
+             if(countPage % 100000 == 0){
+            	 PrintWriter out;
+				try {
+					out = new PrintWriter(new BufferedWriter(new FileWriter("./file/urls" + countPage.toString() + ".txt", true)));
+					for(int i = 0; i < urls.size(); i ++)
+	            		 out.println(urls.get(i));
+	            	 urls.clear();
+	            	 out.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            	 
+             }
          }
     }
-    public static int countPage = 0;
+    public static Integer countPage = 0;
 }
