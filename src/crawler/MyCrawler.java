@@ -20,7 +20,7 @@ public class MyCrawler extends WebCrawler {
     //private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|jpg|mpeg"
     //                                                       + "|png|pdf|mp3|mp4|zip|doc|gz))$");
 	private final static Pattern FILTERS = Pattern.compile(
-			".*(\\.(css|js|bmp|gif|jpe?g|png|tiff?|mid|mp2|mp3|mp4"
+			".*(\\.(csv|css|js|bmp|gif|jpe?g|png|tiff?|mid|mp2|mp3|mp4"
 					+ "|wav|avi|mov|mpeg|ram|m4v|pdf|rm|smil|wmv|swf"
 					+ "|webm|tar|wma|zip|rar|gz|xz|bz|lz|7z|dmg))$");
     
@@ -28,12 +28,10 @@ public class MyCrawler extends WebCrawler {
 
     private final static Pattern AVOID = Pattern.compile("^http://(wicsd|jp3-pc2|duttgroup|archive|calendar).*");
 
-    public static ArrayList<String> urls = new ArrayList<String>();
     private String delimiter_url = 		"##------------------URL-------------------------##";
     private String delimiter_title = 	"##-----------------TITLE------------------------##";
     private String delimiter_text = 	"##------------------TEXT------------------------##";
 
-    private long startTime = System.currentTimeMillis();
     /**
      * This method receives two parameters. The first parameter is the page
      * in which we have discovered this new url and the second parameter is
@@ -62,24 +60,26 @@ public class MyCrawler extends WebCrawler {
     	 
     	 countPage ++;
          String url = page.getWebURL().getURL();
-         urls.add(url);
          
          if (page.getParseData() instanceof HtmlParseData) {
              HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
              String text = htmlParseData.getText();
              String title = htmlParseData.getTitle();
              try {
-            	 Integer fileNum = countPage / 5000;
-            	 PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("./file/myfile" + (fileNum.toString()) + ".txt", true)));
-            	 out.println(delimiter_url);
-            	 out.println(url);
-            	 out.println(delimiter_title);
-            	 out.println(title);
-            	 out.println(delimiter_text);
-            	 out.println(text);
-            	 out.close();
-            	 
-     
+                 Integer fileNum = countPage / 5000;
+                 PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("./file/myfile" + (fileNum.toString()) + ".txt", true)));
+                 out.println(delimiter_url);
+                 out.println(url);
+                 out.println(delimiter_title);
+                 out.println(title);
+                 out.println(delimiter_text);
+                 out.println(text);
+                 out.close();
+
+                 PrintWriter out2 = new PrintWriter(new BufferedWriter(new FileWriter("./file/html/myfile" + (fileNum.toString()) + ".html", true)));
+                 out2.println(url);
+                 out2.println(htmlParseData.getHtml());
+                 out2.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
