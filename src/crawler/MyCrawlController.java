@@ -20,7 +20,7 @@ public class MyCrawlController {
 	  public static void main(String[] args) throws Exception {
 
 	    String crawlStorageFolder = "./";
-	    int numberOfCrawlers = 1;
+	    int numberOfCrawlers = 2;
 	    CrawlConfig config = new CrawlConfig();
 	    config.setCrawlStorageFolder(crawlStorageFolder);
 	    /*
@@ -33,7 +33,7 @@ public class MyCrawlController {
 	     * You can set the maximum crawl depth here. The default value is -1 for
 	     * unlimited depth
 	     */
-	    config.setMaxDepthOfCrawling(1);
+	    //config.setMaxDepthOfCrawling(1);
 
 	    /*
 	     * You can set the maximum number of pages to crawl. The default value
@@ -63,10 +63,14 @@ public class MyCrawlController {
 	     * want to start a fresh crawl, you need to delete the contents of
 	     * rootFolder manually.
 	     */
-	    config.setResumableCrawling(false);
+	    config.setResumableCrawling(true);
 	    
 	    String userAgentString = "IR W16 WebCrawler 60521251 47888751 66848977";
 	    config.setUserAgentString(userAgentString);
+	    
+	    
+	    // i tried to do some funny stuff here:
+	 
 	    /*
 	     * Instantiate the controller for this crawl.
 	     */
@@ -81,7 +85,7 @@ public class MyCrawlController {
 	     * which are found in these pages
 	     */
 	    controller.addSeed("http://www.ics.uci.edu");
-
+	    
 	    /*
 	     * Start the crawl. This is a blocking operation, meaning that your code
 	     * will reach the line after this only when crawling is finished.

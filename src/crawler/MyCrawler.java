@@ -17,12 +17,16 @@ import edu.uci.ics.crawler4j.url.WebURL;
 
 public class MyCrawler extends WebCrawler {
 
-    private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|jpg|mpeg"
-                                                           + "|png|pdf|mp3|mp4|zip|doc|gz))$");
+    //private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|jpg|mpeg"
+    //                                                       + "|png|pdf|mp3|mp4|zip|doc|gz))$");
+	private final static Pattern FILTERS = Pattern.compile(
+			".*(\\.(css|js|bmp|gif|jpe?g|png|tiff?|mid|mp2|mp3|mp4"
+					+ "|wav|avi|mov|mpeg|ram|m4v|pdf|rm|smil|wmv|swf"
+					+ "|webm|tar|wma|zip|rar|gz|xz|bz|lz|7z|dmg))$");
     
     private final static Pattern MATCH = Pattern.compile("^http://.*\\.ics\\.uci\\.edu/.*");
 
-    private final static Pattern AVOID = Pattern.compile("^http://calendar.*");
+    private final static Pattern AVOID = Pattern.compile("^http://(djp3-pc2|duttgroup|archive|calendar).*");
 
     public static ArrayList<String> urls = new ArrayList<String>();
     private String delimiter = "##--------------------------------------------------------##";
@@ -37,6 +41,7 @@ public class MyCrawler extends WebCrawler {
      * with "http://www.ics.uci.edu/". In this case, we didn't need the
      * referringPage parameter to make the decision.
      */
+
      @Override
      public boolean shouldVisit(Page referringPage, WebURL url) {
          String href = url.getURL().toLowerCase();
@@ -51,29 +56,38 @@ public class MyCrawler extends WebCrawler {
       */
      @Override
      public void visit(Page page) {
+    	 
     	 countPage ++;
          String url = page.getWebURL().getURL();
          urls.add(url);
-
+         
          if (page.getParseData() instanceof HtmlParseData) {
              HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
              String text = htmlParseData.getText();
              //String html = htmlParseData.getHtml();
              //Set<WebURL> links = htmlParseData.getOutgoingUrls();
-             
+             System.out.println("Fetching "+countPage+" "+url);
              try {
             	// String filePath = "./file/html/" + Integer.toString(countPage) + ".html";
             	// Files.write(page.getContentData(), new File(filePath));
+            	 
+            	 /*{
             	 String filePath = "./file/text/" + Integer.toString(countPage) + ".txt";
             	 Writer writer = new BufferedWriter(new OutputStreamWriter(
                          new FileOutputStream(filePath)));
             	 writer.write(text);
             	 writer.close();
+            	 }*/
+            	 
             	 Integer fileNum = countPage / 5000;
-            	 PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("./file/myfile" + fileNum.toString() + ".txt", true)));
+            	 PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("./file/myfile" + (fileNum.toString()+4) + ".txt", true)));
             	 out.println(text);
             	 out.println(delimiter);
             	 out.close();
+            	 
+            	 PrintWriter urlOut = new PrintWriter(new BufferedWriter(new FileWriter("./file/urls" + (fileNum.toString()+4) + ".txt", true)));
+            	 urlOut.println(url);
+            	 urlOut.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -85,7 +99,8 @@ public class MyCrawler extends WebCrawler {
             	 long curTime = System.currentTimeMillis();
             	 System.out.println(countPage.toString() + " pages have been crawled in " + Long.toString(curTime - startTime) + "ms");;
              }
-             if(countPage % 100000 == 0){
+             /*{
+             if(countPage % 10000 == 0&&countPage!=0){
             	 PrintWriter out;
 				try {
 					out = new PrintWriter(new BufferedWriter(new FileWriter("./file/urls" + countPage.toString() + ".txt", true)));
@@ -99,6 +114,7 @@ public class MyCrawler extends WebCrawler {
 				}
             	 
              }
+             }*/
              System.out.println("Finished "+countPage+" "+url);
          }
     }
