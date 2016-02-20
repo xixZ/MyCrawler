@@ -26,7 +26,7 @@ public class MyCrawler extends WebCrawler {
     
     private final static Pattern MATCH = Pattern.compile("^http://.*\\.ics\\.uci\\.edu/.*");
 
-    private final static Pattern AVOID = Pattern.compile("^http://(wicsd|jp3-pc2|duttgroup|archive|calendar).*");
+    private final static Pattern AVOID = Pattern.compile("^http://(wics|jp3-pc2|duttgroup|archive|calendar).*");
 
     private String delimiter_url = 		"##------------------URL-------------------------##";
     private String delimiter_title = 	"##-----------------TITLE------------------------##";
