@@ -33,7 +33,7 @@ public class MyCrawlController {
 	     * You can set the maximum crawl depth here. The default value is -1 for
 	     * unlimited depth
 	     */
-	    //config.setMaxDepthOfCrawling(1);
+	    config.setMaxDepthOfCrawling(1);
 
 	    /*
 	     * You can set the maximum number of pages to crawl. The default value
@@ -63,7 +63,7 @@ public class MyCrawlController {
 	     * want to start a fresh crawl, you need to delete the contents of
 	     * rootFolder manually.
 	     */
-	    config.setResumableCrawling(true);
+	    config.setResumableCrawling(false);
 	    
 	    String userAgentString = "IR W16 WebCrawler 60521251 47888751 66848977";
 	    config.setUserAgentString(userAgentString);
@@ -91,6 +91,7 @@ public class MyCrawlController {
 	     * will reach the line after this only when crawling is finished.
 	     */
 	    controller.start(MyCrawler.class, numberOfCrawlers);
+	    
 	    PrintWriter out;
 		try {
 			out = new PrintWriter(new BufferedWriter(new FileWriter("./file/urls" + MyCrawler.countPage.toString() + ".txt", true)));
@@ -99,6 +100,8 @@ public class MyCrawlController {
 			out.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}	  
+		}	
+		
+	    System.out.println("This is the golorious ENNNNNND!!!");
 	  }
 }
