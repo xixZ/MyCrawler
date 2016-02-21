@@ -20,7 +20,7 @@ public class MyCrawler extends WebCrawler {
     //private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|jpg|mpeg"
     //                                                       + "|png|pdf|mp3|mp4|zip|doc|gz))$");
 	private final static Pattern FILTERS = Pattern.compile(
-			".*(\\.(csv|css|js|bmp|gif|jpe?g|png|tiff?|mid|mp2|mp3|mp4"
+			".*(\\.(java|\\.classpath|\\.project|\\.bat|\\.php|\\.jar|\\.py|\\.properties|csv|css|js|bmp|gif|jpe?g|png|tiff?|mid|mp2|mp3|mp4"
 					+ "|wav|avi|mov|mpeg|ram|m4v|pdf|rm|smil|wmv|swf"
 					+ "|webm|tar|wma|zip|rar|gz|xz|bz|lz|7z|dmg))$");
     
@@ -68,8 +68,10 @@ public class MyCrawler extends WebCrawler {
              String text = htmlParseData.getText();
              String title = htmlParseData.getTitle();
              try {
-                 Integer fileNum = countPage / 5000;
-                 PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("./file/myfile" + (fileNum.toString()) + ".txt", true)));
+                 Integer fileNum = countPage / 1500;
+		         FileWriter fw = new FileWriter("./file/myfile" + (fileNum.toString()) + ".txt", true);
+		         BufferedWriter bw = new BufferedWriter(fw);
+                 PrintWriter out = new PrintWriter(bw);
                  out.println(delimiter_url);
                  out.println(url);
                  out.println(delimiter_title);
@@ -77,11 +79,17 @@ public class MyCrawler extends WebCrawler {
                  out.println(delimiter_text);
                  out.println(text);
                  out.close();
+		         bw.close();
+		         fw.close();
 
-                 PrintWriter out2 = new PrintWriter(new BufferedWriter(new FileWriter("./file/html/myfile" + (fileNum.toString()) + ".html", true)));
+		         FileWriter fw2 = new FileWriter("./file/html/myfile" + (fileNum.toString()) + ".html", true);
+		         BufferedWriter bw2 = new BufferedWriter(fw2);
+                 PrintWriter out2 = new PrintWriter(bw2);
                  out2.println(url);
                  out2.println(htmlParseData.getHtml());
                  out2.close();
+		         bw2.close();
+		         fw2.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
