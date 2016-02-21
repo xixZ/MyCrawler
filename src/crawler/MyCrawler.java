@@ -20,7 +20,8 @@ public class MyCrawler extends WebCrawler {
     //private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|jpg|mpeg"
     //                                                       + "|png|pdf|mp3|mp4|zip|doc|gz))$");
 	private final static Pattern FILTERS = Pattern.compile(
-			".*(\\.(java|\\.classpath|\\.project|\\.bat|\\.php|\\.jar|\\.py|\\.properties|csv|css|js|bmp|gif|jpe?g|png|tiff?|mid|mp2|mp3|mp4"
+			".*(\\.(java|classpath|project|bat|php|jar|py|properties|csv"
+                    + "|css|js|bmp|gif|jpe?g|png|tiff?|mid|mp2|mp3|mp4"
 					+ "|wav|avi|mov|mpeg|ram|m4v|pdf|rm|smil|wmv|swf"
 					+ "|webm|tar|wma|zip|rar|gz|xz|bz|lz|7z|dmg))$");
     
